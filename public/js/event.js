@@ -40,28 +40,24 @@ AFRAME.registerComponent('markerhandler', {
 
         markerList.forEach(function (marker, index) {
             marker.setAttribute('link', {
-                href: "https://www.google.com",
+                href: "https://www.linkedin.com/in/zharifzamkhuri/",
                 visualAspectEnabled: false
             });
-            try {
-                marker.addEventListener('markerFound', function (ev) {
-                    console.log('Marker ' + index + ' found');
-                    intro[index].play();
-                });
-                marker.addEventListener('markerLost', function (ev) {
-                    console.log('Marker ' + index + ' lost');
-                    intro[index].pause();
-                    intro[index].currentTime = 0;
-                });
-                marker.addEventListener('click', function (ev) {
-                    if (marker.object3D.visible == true && ev.detail.cursorEl) {
-                        console.log('Marker clicked');
-                    }
-                });
-            }
-            catch (e) {
-                console.log(e);
-            }
+            marker.addEventListener('markerFound', function (ev) {
+                console.log('Marker ' + index + ' found');
+                intro[index].play();
+            });
+            marker.addEventListener('markerLost', function (ev) {
+                console.log('Marker ' + index + ' lost');
+                intro[index].pause();
+                intro[index].currentTime = 0;
+            });
+            marker.addEventListener('click', function (ev) {
+                if (marker.object3D.visible == true && ev.detail.cursorEl) {
+                    console.log('Marker clicked');
+                }
+            });
+
         });
 
         // Set up the tick throttling. Will check if marker is active every 500ms
