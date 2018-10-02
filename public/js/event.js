@@ -1,57 +1,55 @@
 
-var data = {};
-
-//Sample data
-
-data =
-    {
-        "0": {
-            "name": "CesarHarada_WSSW_bells_test_edit.mp3",
-            "format": "mp3",
-        },
-        "1": {
-            "name": "JamesBanbury_WSSW_singing_test_edit.mp3",
-            "format": "mp3"
-        }
-
-    }
 
 //HTML5 audio, will need user touch input to start on mobile
 
 
 
+
+
 AFRAME.registerComponent('markerhandler', {
     init: function () {
-        var markerList = document.querySelectorAll(".markers");
+
         var intro = [];
+        var data = {};
 
-        intro[0] = new Audio("mp3/" + data[0].name);
-        intro[0].loop = true;
-        intro[1] = new Audio("mp3/" + data[1].name);
-        intro[1].loop = true;
+        //Sample data
 
+        data =
+            {
+                "0": {
+                    "name": "CesarHarada_WSSW_bells_test_edit.mp3",
+                    "format": "mp3",
+                },
+                "1": {
+                    "name": "JamesBanbury_WSSW_singing_test_edit.mp3",
+                    "format": "mp3"
+                }
 
-        markerList[0].addEventListener("markerFound", (e) => {
-            console.log('Marker 0 Found');
-            intro[0].play();
+            };
+
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                intro[key] = new Audio("mp3/" + data[key].name);
+                intro[key].loop = true;
+                console.log(intro[key])
+            }
+        }
+
+        var markerList = document.querySelectorAll(".markers");
+
+        markerList.forEach(function (marker, index) {
+            marker.addEventListener('markerFound', function () {
+                console.log('Marker ' + index + ' found');
+                intro[index].play();
+            });
+            marker.addEventListener('markerLost', (e) => {
+                console.log('Marker ' + index + ' lost');
+                intro[index].pause();
+                intro[index].currentTime = 0;
+            });
 
         });
-        markerList[0].addEventListener("markerLost", (e) => {
-            console.log('Marker 0 Lost');
-            intro[0].pause();
-            intro[0].currentTime = 0;
-        });
 
-        markerList[1].addEventListener("markerFound", (e) => {
-            console.log('Marker 1 Found');
-            intro[1].play();
-
-        });
-        markerList[1].addEventListener("markerLost", (e) => {
-            console.log('Marker 1 Lost');
-            intro[1].pause();
-            intro[1].currentTime = 0;
-        });
         // Set up the tick throttling. Will check if marker is active every 500ms
         //this.tick = AFRAME.utils.throttleTick(this.tick, 500, this);
 
