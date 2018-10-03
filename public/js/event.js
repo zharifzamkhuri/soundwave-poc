@@ -2,64 +2,109 @@
 
 AFRAME.registerComponent('markerhandler', {
     init: function () {
-
-        var intro = [];
-        var data = {};
-
-        //Sample data
-
-        data =
-            {
-                "0": {
-                    "name": "CesarHarada_WSSW_bells_test_edit.mp3",
-                    "format": "mp3",
-                },
-                "1": {
-                    "name": "JamesBanbury_WSSW_singing_test_edit.mp3",
-                    "format": "mp3"
-                },
-                "2": {
-                    "name": "PeteDavis_WSSW_drum_test_edit.mp3",
-                    "format": "mp3"
-                },
-                "3": {
-                    "name": "ThierryHalbroth_WSSW_flute_test_edit.mp3",
-                    "format": "mp3"
-                }
-            };
-
-        for (var key in data) {
-            if (data.hasOwnProperty(key)) {
-                intro[key] = new Audio("mp3/" + data[key].name);
-                intro[key].loop = true;
-                console.log(intro[key])
+        // Promise
+        var getData = new Promise(
+            function (resolve) {
+                var sounds = {
+                    "0": {
+                        "name": "CesarHarada_WSSW_bells_test_edit.mp3",
+                        "format": "mp3",
+                        "href": "https://www.linkedin.com/in/cesarharada/"
+                    },
+                    "1": {
+                        "name": "JamesBanbury_WSSW_singing_test_edit.mp3",
+                        "format": "mp3",
+                        "href": "https://www.linkedin.com/in/james-banbury-aa6ab36/"
+                    },
+                    "2": {
+                        "name": "PeteDavis_WSSW_drum_test_edit.mp3",
+                        "format": "mp3",
+                        "href": "https://www.linkedin.com/in/pete-davis-0686528/"
+                    },
+                    "3": {
+                        "name": "ThierryHalbroth_WSSW_flute_test_edit.mp3",
+                        "format": "mp3",
+                        "href": "https://www.linkedin.com/in/thalbroth/"
+                    }
+                };
+                resolve(sounds);
             }
-        }
+        );
 
-        var markerList = document.querySelectorAll(".markers");
+        // call our promise
+        var init = function () {
+            getData.then(function (data) {
+                var intro = [];
 
-        markerList.forEach(function (marker, index) {
-            marker.setAttribute('link', {
-                href: "https://www.linkedin.com/in/zharifzamkhuri/",
-                visualAspectEnabled: false
-            });
-            marker.addEventListener('markerFound', function (ev) {
-                console.log('Marker ' + index + ' found');
-                intro[index].play();
-            });
-            marker.addEventListener('markerLost', function (ev) {
-                console.log('Marker ' + index + ' lost');
-                intro[index].pause();
-                intro[index].currentTime = 0;
-            });
-            marker.addEventListener('click', function (ev) {
-                if (marker.object3D.visible == true && ev.detail.cursorEl) {
-                    console.log('Marker clicked');
+                for (var key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        intro[key] = new Audio("mp3/" + data[key].name);
+                        intro[key].loop = true;
+                        console.log(intro[key])
+                    }
                 }
-            });
 
-        });
+                var markerList = document.querySelectorAll(".markers");
 
+                markerList.forEach(function (marker, index) {
+                    marker.setAttribute('link', {
+                        href: data[index].href,
+                        visualAspectEnabled: false
+                    });
+                    marker.addEventListener('markerFound', function (ev) {
+                        console.log('Marker ' + index + ' found');
+                        intro[index].play();
+                    });
+                    marker.addEventListener('markerLost', function (ev) {
+                        console.log('Marker ' + index + ' lost');
+                        intro[index].pause();
+                        intro[index].currentTime = 0;
+                    });
+                    marker.addEventListener('click', function (ev) {
+                        if (marker.object3D.visible == true && ev.detail.cursorEl) {
+                            console.log('Marker clicked');
+                        }
+                    });
+
+                });
+            })
+        };
+
+        init();
+
+
+
+        /*
+                var intro = [];
+                var data = {};
+        
+                //Sample data
+        
+                data =
+                    {
+                        "0": {
+                            "name": "CesarHarada_WSSW_bells_test_edit.mp3",
+                            "format": "mp3",
+                            "href": "https://www.linkedin.com/in/zharifzamkhuri/"
+                        },
+                        "1": {
+                            "name": "JamesBanbury_WSSW_singing_test_edit.mp3",
+                            "format": "mp3",
+                            "href": "https://www.linkedin.com/in/zharifzamkhuri/"
+                        },
+                        "2": {
+                            "name": "PeteDavis_WSSW_drum_test_edit.mp3",
+                            "format": "mp3",
+                            "href": "https://www.linkedin.com/in/zharifzamkhuri/"
+                        },
+                        "3": {
+                            "name": "ThierryHalbroth_WSSW_flute_test_edit.mp3",
+                            "format": "mp3",
+                            "href": "https://www.linkedin.com/in/zharifzamkhuri/"
+                        }
+                    };
+        
+        */
         // Set up the tick throttling. Will check if marker is active every 500ms
         //this.tick = AFRAME.utils.throttleTick(this.tick, 500, this);
 
