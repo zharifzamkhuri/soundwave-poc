@@ -50,13 +50,13 @@ AFRAME.registerComponent('markerhandler', {
                 var agree = document.querySelector(".test");
 
                 agree.addEventListener('click', function (ev) {
-                    document.querySelector('.container').style.display = "none";
                     markerList.forEach(function (marker, index) {
                         intro[index].play();
                         intro[index].pause();
                         intro[index].currentTime = 0;
                     });
-                    
+                    document.querySelector('.container').style.display = "none";
+                    document.querySelector('.overlay').style.display = "none";
                 });
 
 
@@ -80,7 +80,7 @@ AFRAME.registerComponent('markerhandler', {
                     });
 
                 });
-                document.querySelector('.overlay').style.display = "none";
+
                 document.querySelector('.loading').style.display = "none";
 
             })
