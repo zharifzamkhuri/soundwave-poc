@@ -36,6 +36,9 @@ AFRAME.registerComponent('markerhandler', {
             getData.then(function (data) {
                 var intro = [];
 
+
+                var test = new Audio("mp3/CesarHarada_WSSW_bells_test_edit.mp3");
+
                 for (var key in data) {
                     if (data.hasOwnProperty(key)) {
                         intro[key] = new Audio("mp3/" + data[key].name);
@@ -54,6 +57,7 @@ AFRAME.registerComponent('markerhandler', {
                     marker.addEventListener('markerFound', function (ev) {
                         console.log('Marker ' + index + ' found');
                         console.log(intro[index])
+                        test.play();
                         //intro[index].play();
                     });
                     marker.addEventListener('markerLost', function (ev) {
@@ -64,7 +68,6 @@ AFRAME.registerComponent('markerhandler', {
                     marker.addEventListener('click', function (ev) {
                         if (marker.object3D.visible == true && ev.detail.cursorEl) {
                             console.log('Marker clicked');
-                            intro[index].play();
                         }
                     });
 
@@ -72,8 +75,8 @@ AFRAME.registerComponent('markerhandler', {
             })
         };
 
-        init();
 
+        init();
 
 
         /*
