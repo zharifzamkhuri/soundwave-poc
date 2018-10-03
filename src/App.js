@@ -15,7 +15,7 @@ class App extends Component {
         </div>
 
         <a-scene markerhandler cursor="rayOrigin: mouse" arjs='detectionMode: mono_and_matrix; matrixCodeType: 4x4; debugUIEnabled: false;'>
-          <a-marker emitevents="true" class="markers" type='barcode' value='0'>
+          <a-marker emitevents="true" class="markersTest" type='barcode' value='0'>
             <a-box position='0 0 0' material='color: yellow;'></a-box>
           </a-marker>
 
