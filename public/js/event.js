@@ -46,11 +46,17 @@ AFRAME.registerComponent('markerhandler', {
                 }
 
                 var markerList = document.querySelectorAll(".markers");
-                
-                var test = document.querySelector(".test");
-                
-                test.addEventListener('click', function (ev) {
-                    intro[0].play();
+
+                var agree = document.querySelector(".test");
+
+                agree.addEventListener('click', function (ev) {
+                    document.querySelector('.container').style.display = "none";
+                    markerList.forEach(function (marker, index) {
+                        intro[index].play();
+                        intro[index].pause();
+                        intro[index].currentTime = 0;
+                    });
+                    
                 });
 
 

@@ -19,9 +19,9 @@ class App extends Component {
 
         <div className="container">
           <div className="popup">
-            <p>Loading</p>
+            <p>Welcome to EY Soundwave</p>
             <button class="test">
-            click me
+              Proceed
             </button>
           </div>
         </div>
