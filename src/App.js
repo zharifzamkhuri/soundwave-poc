@@ -31,7 +31,7 @@ class App extends Component {
             <a-box position='0 0 0' material='color: blue;'></a-box>
           </a-marker>
 
-          <a-marker-camera></a-marker-camera>
+          <a-marker-camera preset='hiro'></a-marker-camera>
         </a-scene>
       </div>
     );

@@ -53,7 +53,7 @@ AFRAME.registerComponent('markerhandler', {
                     });
                     marker.addEventListener('markerFound', function (ev) {
                         console.log('Marker ' + index + ' found');
-                        
+                        console.log(intro[index])
                         //intro[index].play();
                     });
                     marker.addEventListener('markerLost', function (ev) {
