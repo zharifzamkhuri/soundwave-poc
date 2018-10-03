@@ -64,6 +64,7 @@ AFRAME.registerComponent('markerhandler', {
                     marker.addEventListener('click', function (ev) {
                         if (marker.object3D.visible == true && ev.detail.cursorEl) {
                             console.log('Marker clicked');
+                            intro[index].play();
                         }
                     });
 
