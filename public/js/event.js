@@ -1,34 +1,125 @@
-var playing = false;
-
 //HTML5 audio, will need user touch input to start on mobile
-var intro = new Audio("mp3/CesarHarada_WSSW_bells_test_edit.mp3");
-
-//Detect end of audio
-intro.addEventListener("ended", function () {
-    intro.currentTime = 0;
-    playing = false;
-});
-
-
-
 
 AFRAME.registerComponent('markerhandler', {
     init: function () {
+        // Promise
+        var getData = new Promise(
+            function (resolve) {
+                var sounds = {
+                    "0": {
+                        "name": "CesarHarada_WSSW_bells_test_edit.mp3",
+                        "format": "mp3",
+                        "href": "https://www.linkedin.com/in/cesarharada/"
+                    },
+                    "1": {
+                        "name": "JamesBanbury_WSSW_singing_test_edit.mp3",
+                        "format": "mp3",
+                        "href": "https://www.linkedin.com/in/james-banbury-aa6ab36/"
+                    },
+                    "2": {
+                        "name": "PeteDavis_WSSW_drum_test_edit.mp3",
+                        "format": "mp3",
+                        "href": "https://www.linkedin.com/in/pete-davis-0686528/"
+                    },
+                    "3": {
+                        "name": "ThierryHalbroth_WSSW_flute_test_edit.mp3",
+                        "format": "mp3",
+                        "href": "https://www.linkedin.com/in/thalbroth/"
+                    }
 
+                };
+                resolve(sounds);
+            }
+        );
+
+        // call our promise
+        var init = function () {
+            getData.then(function (data) {
+                var intro = [];
+
+                for (var key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        intro[key] = new Audio("mp3/" + data[key].name);
+                        intro[key].loop = true;
+                        console.log(intro[key])
+                    }
+                }
+
+                var markerList = document.querySelectorAll(".markers");
+                
+                var test = document.querySelector(".test");
+                
+                test.addEventListener('click', function (ev) {
+                    intro[0].play();
+                });
+
+
+                markerList.forEach(function (marker, index) {
+                    /*marker.setAttribute('link', {
+                        href: data[index].href,
+                        visualAspectEnabled: false
+                    });
+                    */
+                    marker.addEventListener('markerFound', function (ev) {
+                        intro[index].play();
+                    });
+                    marker.addEventListener('markerLost', function (ev) {
+                        intro[index].pause();
+                        intro[index].currentTime = 0;
+                    });
+                    marker.addEventListener('click', function (ev) {
+                        if (marker.object3D.visible == true && ev.detail.cursorEl) {
+                            console.log('Marker clicked');
+                        }
+                    });
+
+                });
+                document.querySelector('.overlay').style.display = "none";
+                document.querySelector('.loading').style.display = "none";
+
+            })
+        };
+
+
+        init();
+
+
+        /*
+                var intro = [];
+                var data = {};
+        
+                //Sample data
+        
+                data =
+                    {
+                        "0": {
+                            "name": "CesarHarada_WSSW_bells_test_edit.mp3",
+                            "format": "mp3",
+                            "href": "https://www.linkedin.com/in/zharifzamkhuri/"
+                        },
+                        "1": {
+                            "name": "JamesBanbury_WSSW_singing_test_edit.mp3",
+                            "format": "mp3",
+                            "href": "https://www.linkedin.com/in/zharifzamkhuri/"
+                        },
+                        "2": {
+                            "name": "PeteDavis_WSSW_drum_test_edit.mp3",
+                            "format": "mp3",
+                            "href": "https://www.linkedin.com/in/zharifzamkhuri/"
+                        },
+                        "3": {
+                            "name": "ThierryHalbroth_WSSW_flute_test_edit.mp3",
+                            "format": "mp3",
+                            "href": "https://www.linkedin.com/in/zharifzamkhuri/"
+                        }
+                    };
+        
+        */
         // Set up the tick throttling. Will check if marker is active every 500ms
-        this.tick = AFRAME.utils.throttleTick(this.tick, 500, this);
-    },
-    tick: function (t, dt) {
-
-        if (document.querySelector(".markersTest").object3D.visible == true && playing == false) {
-            // MARKER IS PRESENT
-            intro.play();
-            playing = true;
-        } else {
-            // MARKER IS HIDDEN, do nothing (up to you)
-        }
+        //this.tick = AFRAME.utils.throttleTick(this.tick, 500, this);
 
     }
+
     //tick: function (t, dt) {
     /*
     var els = sceneEl.querySelectorAll('*');
