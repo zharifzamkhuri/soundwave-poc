@@ -1,5 +1,21 @@
 //HTML5 audio, will need user touch input to start on mobile
 
+
+
+var scene = document.querySelector('a-scene');
+
+if (scene.hasLoaded) {
+  run();
+} else {
+  scene.addEventListener('loaded', run);
+}
+
+function run () {
+  var entity = scene.querySelector('a-entity');
+  entity.setAttribute('material', 'color', 'red');
+}
+
+
 AFRAME.registerComponent('markerhandler', {
     init: function () {
         // Promise
@@ -53,7 +69,8 @@ AFRAME.registerComponent('markerhandler', {
                     });
                     marker.addEventListener('markerFound', function (ev) {
                         console.log('Marker ' + index + ' found');
-                        intro[index].play();
+                        
+                        //intro[index].play();
                     });
                     marker.addEventListener('markerLost', function (ev) {
                         console.log('Marker ' + index + ' lost');
